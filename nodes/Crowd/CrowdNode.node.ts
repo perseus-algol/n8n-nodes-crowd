@@ -5,31 +5,29 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
+import { allProperties } from './descriptions';
 
-export class ExampleNode implements INodeType {
+export class CrowdNode implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
-		name: 'exampleNode',
+		displayName: 'Crowd.dev Node',
+		name: 'crowdNode',
+		icon: 'file:crowd.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Basic Example Node',
+		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
+		description: 'Crowd.dev - An open-source suite of community and data tools built to unlock community-led growth for developer tools.',
 		defaults: {
-			name: 'Example Node',
+			name: 'Crowd Node',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
-		properties: [
-			// Node properties which the user gets displayed and
-			// can change on the node.
+		credentials: [
 			{
-				displayName: 'My String',
-				name: 'myString',
-				type: 'string',
-				default: '',
-				placeholder: 'Placeholder value',
-				description: 'The description text',
+				name: 'crowdApi',
+				required: true,
 			},
 		],
+		properties: allProperties,
 	};
 
 	// The function below is responsible for actually doing whatever this node

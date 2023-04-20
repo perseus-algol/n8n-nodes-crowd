@@ -5,22 +5,31 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class HttpBinApi implements ICredentialType {
-	name = 'httpbinApi';
-	displayName = 'HttpBin API';
-	documentationUrl = '<your-docs-url>';
+export class CrowdApi implements ICredentialType {
+	name = 'crowdApi';
+	displayName = 'crowd.dev API';
+	documentationUrl = 'https://docs.crowd.dev/reference/getting-started-with-crowd-dev-api';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Token',
-			name: 'token',
+			displayName: 'Domain',
+			name: 'domain',
+			type: 'hidden',
+			default: 'https://app.crowd.dev',
+		},
+		{
+			displayName: 'Tenant ID',
+			name: 'tenantId',
 			type: 'string',
 			default: '',
 		},
 		{
-			displayName: 'Domain',
-			name: 'domain',
+			displayName: 'Token',
+			name: 'token',
 			type: 'string',
-			default: 'https://httpbin.org',
+			typeOptions: {
+				password: true,
+			},
+			default: '',
 		},
 	];
 
@@ -40,8 +49,13 @@ export class HttpBinApi implements ICredentialType {
 	// The block below tells how this credential can be tested
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{$credentials?.domain}}',
-			url: '/bearer',
+			method: 'POST',
+			baseURL: '={{$credentials?.domain + "/api/tenant/" + $credentials?.tenantId}}',
+			url: '/member/query',
+			body: {
+				"limit": 1,
+				"offset": 0
+			}
 		},
 	};
 }
