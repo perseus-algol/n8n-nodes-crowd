@@ -9,7 +9,7 @@ import {
 import { allProperties } from './descriptions';
 import { callApi } from './GenericFunctions';
 
-export class CrowdNode implements INodeType {
+export class Crowd implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Crowd.dev Node',
 		name: 'crowdNode',
