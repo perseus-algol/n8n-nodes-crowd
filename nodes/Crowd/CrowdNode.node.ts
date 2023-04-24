@@ -1,11 +1,13 @@
 import { IExecuteFunctions } from 'n8n-core';
 import {
+	IDataObject,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
 import { allProperties } from './descriptions';
+import { callApi } from './GenericFunctions';
 
 export class CrowdNode implements INodeType {
 	description: INodeTypeDescription = {
@@ -31,24 +33,20 @@ export class CrowdNode implements INodeType {
 	};
 
 	// The function below is responsible for actually doing whatever this node
-	// is supposed to do. In this case, we're just appending the `myString` property
-	// with whatever the user has entered.
-	// You can make async calls and use `await`.
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
+		const returnData: IDataObject[] = [];
+		const resource = this.getNodeParameter('resource', 0) as string;
+		const operation = this.getNodeParameter('operation', 0) as string;
 
-		let item: INodeExecutionData;
-		let myString: string;
-
-		// Iterates over all input items and add the key "myString" with the
-		// value the parameter "myString" resolves to.
-		// (This could be a different value for each item in case it contains an expression)
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				myString = this.getNodeParameter('myString', itemIndex, '') as string;
-				item = items[itemIndex];
-
-				item.json['myString'] = myString;
+				const result = await callApi(this, itemIndex, resource, operation);
+				if (result.constructor === Array) {
+					result.forEach(i => returnData.push({ json: result }))
+				} else {
+					returnData.push({ json: result });
+				}
 			} catch (error) {
 				// This node should never fail but we want to showcase how
 				// to handle errors.
@@ -68,7 +66,6 @@ export class CrowdNode implements INodeType {
 				}
 			}
 		}
-
-		return this.prepareOutputData(items);
+		return [returnData as INodeExecutionData[]];
 	}
 }

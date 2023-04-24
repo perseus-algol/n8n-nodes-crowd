@@ -103,8 +103,8 @@ const commonFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
-				displayName: 'Choice Item',
-				name: 'choiceItem',
+				displayName: 'Item Choice',
+				name: 'itemChoice',
 				values: [
 					{
 						displayName: 'Tag',
@@ -127,8 +127,8 @@ const commonFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
-				displayName: 'Choice Item',
-				name: 'choiceItem',
+				displayName: 'Item Choice',
+				name: 'itemChoice',
 				values: [
 					{
 						displayName: 'Task',
@@ -151,8 +151,8 @@ const commonFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
-				displayName: 'Choice Item',
-				name: 'choiceItem',
+				displayName: 'Item Choice',
+				name: 'itemChoice',
 				values: [
 					{
 						displayName: 'Note',
@@ -175,8 +175,8 @@ const commonFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
-				displayName: 'Choice Item',
-				name: 'choiceItem',
+				displayName: 'Item Choice',
+				name: 'itemChoice',
 				values: [
 					{
 						displayName: 'Activity',

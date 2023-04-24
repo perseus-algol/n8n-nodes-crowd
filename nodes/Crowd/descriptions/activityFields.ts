@@ -27,20 +27,23 @@ const activityOperations: INodeProperties = {
 			name: 'Create an Activity for a Member',
 			value: 'createForMember',
 			action: 'Create an activity for a member',
+			routing: {
+
+			}
 		},
 	]
 }
 
 const memberField: INodeProperties = {
 	displayName: 'Member',
-	name: 'Member',
+	name: 'member',
 	description: 'A member of your community',
 	type: 'fixedCollection',
 	default: {},
 	options: [
 		{
-			displayName: 'Member Object',
-			name: 'memberObj',
+			displayName: 'Item Choice',
+			name: 'itemChoice',
 			values: [
 				usernameField,
 				{
@@ -65,7 +68,7 @@ const memberField: INodeProperties = {
 
 const memberIdField: INodeProperties = {
 	displayName: 'Member',
-	name: 'Member',
+	name: 'member',
 	description: 'The ID of the member that performed the activity',
 	type: 'string',
 	required: true,
@@ -119,7 +122,7 @@ const createCommonFields: INodeProperties[] = [
 		default: ''
 	},
 	{
-		displayName: 'sourceId',
+		displayName: 'Source ID',
 		name: 'sourceId',
 		description: 'The ID of the activity in the platform (e.g. the ID of the message in Discord)',
 		type: 'string',
@@ -127,7 +130,7 @@ const createCommonFields: INodeProperties[] = [
 		default: ''
 	},
 	{
-		displayName: 'sourceParentId',
+		displayName: 'Source Parent ID',
 		name: 'sourceParentId',
 		description: 'The ID of the parent activity in the platform (e.g. the ID of the parent message in Discord)',
 		type: 'string',

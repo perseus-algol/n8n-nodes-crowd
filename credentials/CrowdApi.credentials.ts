@@ -31,6 +31,34 @@ export class CrowdApi implements ICredentialType {
 			},
 			default: '',
 		},
+		{
+			displayName: 'Debug',
+			name: 'debug',
+			description: 'Turn it on to see requiest options instead of making actual requests',
+			type: 'boolean',
+			default: false,
+		},
+		{
+			displayName: 'Debug Output',
+			name: 'debugOutput',
+			type: 'options',
+			displayOptions: {
+				show: {
+					debug: [true]
+				}
+			},
+			default: 'params',
+			options: [
+				{
+					name: 'Params Values',
+					value: 'params',
+				},
+				{
+					name: 'Request Options',
+					value: 'request',
+				}
+			]
+		}
 	];
 
 	// This allows the credential to be used by other parts of n8n
