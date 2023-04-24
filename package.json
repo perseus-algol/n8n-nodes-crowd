@@ -1,15 +1,15 @@
 {
   "name": "n8n-nodes-crowd",
   "version": "0.1.0",
-  "description": "",
+  "description": "crowd.dev is an open-source suite of community and data tools built to unlock community-led growth for your organization.",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "perseus-algol",
+    "email": "129220578+perseus-algol@users.noreply.github.com"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
       "dist/credentials/CrowdApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Crowd/Crowd.node.js",
+      "dist/nodes/Crowd/CrowdNode.node.js",
       "dist/nodes/Crowd/CrowdTrigger.node.js"
     ]
   },
