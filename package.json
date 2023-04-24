@@ -33,7 +33,8 @@
       "dist/credentials/CrowdApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Crowd/CrowdNode.node.js"
+      "dist/nodes/Crowd/CrowdNode.node.js",
+      "dist/nodes/Crowd/CrowdTrigger.node.js"
     ]
   },
   "devDependencies": {
