@@ -42,7 +42,10 @@ export class Crowd implements INodeType {
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
 				const result = await callApi(this, itemIndex, resource, operation);
-				if (result.constructor === Array) {
+				if (result === undefined) {
+					returnData.push({ json: { result: 'success' } });
+				}
+				else if (result.constructor === Array) {
 					result.forEach(i => returnData.push({ json: result }))
 				} else {
 					returnData.push({ json: result });

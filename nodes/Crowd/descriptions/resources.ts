@@ -13,6 +13,10 @@ export const resources: INodeProperties = {
 			value: 'activity',
 		},
 		{
+			name: 'Automation',
+			value: 'automation',
+		},
+		{
 			name: 'Member',
 			value: 'member',
 		},

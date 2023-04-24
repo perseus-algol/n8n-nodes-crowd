@@ -5,6 +5,7 @@ import { noteFields, noteOperations } from './noteFields';
 import { organizationFields, organizationOperations } from './organizationFields';
 import { taskFields, taskOperations } from './taskFields';
 import { INodeProperties } from "n8n-workflow";
+import { automationFields, automationOperations } from "./automationFields";
 
 export const allProperties: INodeProperties[] = [
 	resources,
@@ -13,9 +14,11 @@ export const allProperties: INodeProperties[] = [
 	noteOperations,
 	organizationOperations,
 	taskOperations,
+	automationOperations,
 	...activityFields,
 	...memberFields,
 	...noteFields,
 	...organizationFields,
 	...taskFields,
+	...automationFields,
 ];

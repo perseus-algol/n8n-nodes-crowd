@@ -27,9 +27,6 @@ const activityOperations: INodeProperties = {
 			name: 'Create an Activity for a Member',
 			value: 'createForMember',
 			action: 'Create an activity for a member',
-			routing: {
-
-			}
 		},
 	]
 }

@@ -1,14 +1,25 @@
 import type {
 	IHookFunctions,
 	IWebhookFunctions,
-	IDataObject,
-	ILoadOptionsFunctions,
-	INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
 	IWebhookResponseData,
+	IHttpRequestOptions,
 } from 'n8n-workflow';
-import { NodeOperationError } from 'n8n-workflow';
+import { ICrowdCreds } from './GenericFunctions';
+
+const credsName = 'crowdApi';
+
+const getCreds = async (hookFns: IHookFunctions) => hookFns.getCredentials(credsName) as unknown as ICrowdCreds;
+
+const createRequest = (creds: ICrowdCreds, opts: Partial<IHttpRequestOptions>): IHttpRequestOptions => {
+	const defaults: IHttpRequestOptions = {
+		baseURL: `${creds.domain}/api/tenant/${creds.tenantId}`,
+		url: '',
+		json: true,
+	}
+	return Object.assign(defaults, opts);
+}
 
 export class CrowdTrigger implements INodeType {
 	description: INodeTypeDescription = {
@@ -38,27 +49,111 @@ export class CrowdTrigger implements INodeType {
 			},
 		],
 		properties: [
-
+			{
+				displayName: 'Trigger',
+				name: 'trigger',
+				description: 'What will trigger an automation',
+				type: 'options',
+				required: true,
+				default: 'new_activity',
+				options: [
+					{
+						name: 'New Activity',
+						value: 'new_activity'
+					},
+					{
+						name: 'New Member',
+						value: 'new_member'
+					}
+				]
+			},
 		],
 	};
 
 	webhookMethods = {
 		default: {
+
 			async checkExists(this: IHookFunctions): Promise<boolean> {
+				const creds = await getCreds(this);
 				const webhookData = this.getWorkflowStaticData('node');
-				console.log('checkExists');
+				const webhookUrl = this.getNodeWebhookUrl('default') as string;
+
+				if (webhookData.webhookId !== undefined) {
+					try {
+						const options = createRequest(creds, {
+							url: `/automation/${webhookData.webhookId}`,
+							method: 'GET',
+						});
+						const data = await this.helpers.requestWithAuthentication.call(this, credsName, options);
+						if (data.settings.url === webhookUrl) {
+							return true;
+						}
+					} catch (error) {
+						return false;
+					}
+				}
+
+
 				// If it did not error then the webhook exists
 				return false;
 			},
 
 			async create(this: IHookFunctions): Promise<boolean> {
+				const creds = await getCreds(this);
 				const webhookData = this.getWorkflowStaticData('node');
-				console.log('create');
+				const webhookUrl = this.getNodeWebhookUrl('default') as string;
+				const params = {
+					trigger: this.getNodeParameter('trigger') as string,
+				};
+
+				const options = createRequest(creds, {
+					url: '/automation',
+					method: 'POST',
+					body: {
+						data: {
+							settings: {
+								url: webhookUrl,
+							},
+							type: 'webhook',
+							trigger: params.trigger,
+						}
+					},
+				});
+
+				const responseData = await this.helpers.requestWithAuthentication.call(this, 'crowdApi', options);
+				if (responseData === undefined || responseData.id === undefined) {
+					// Required data is missing so was not successful
+					return false;
+				}
+
+				webhookData.webhookId = responseData.id as string;
+
 				return true;
 			},
+
 			async delete(this: IHookFunctions): Promise<boolean> {
+				const creds = await getCreds(this);
 				const webhookData = this.getWorkflowStaticData('node');
-				console.log('delete');
+
+				if (webhookData.webhookId !== undefined) {
+
+					try {
+						const options = createRequest(creds, {
+							url: `/automation/${webhookData.webhookId}`,
+							method: 'DELETE',
+						});
+						await this.helpers.requestWithAuthentication.call(this, credsName, options);
+					} catch (error) {
+						return false;
+					}
+
+					// Remove from the static workflow data so that it is clear
+					// that no webhooks are registered anymore
+					delete webhookData.webhookId;
+					delete webhookData.webhookEvents;
+					delete webhookData.hookSecret;
+				}
+
 				return true;
 			},
 		},
@@ -66,19 +161,9 @@ export class CrowdTrigger implements INodeType {
 
 	async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
 		const bodyData = this.getBodyData();
-		const headerData = this.getHeaderData() as IDataObject;
-		const req = this.getRequestObject();
-
-		const webhookData = this.getWorkflowStaticData('node');
-
-		const result: IDataObject[] = [
-			{
-				x: 1
-			}
-		]
 
 		return {
-			workflowData: [this.helpers.returnJsonArray(result)],
+			workflowData: [this.helpers.returnJsonArray(bodyData)],
 		};
 	}
 }

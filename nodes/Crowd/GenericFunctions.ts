@@ -1,6 +1,6 @@
 import { IExecuteFunctions, IHttpRequestOptions, JsonObject, NodeApiError } from "n8n-workflow";
 
-interface ICrowdCreds {
+export interface ICrowdCreds {
 	domain: string;
 	tenantId: string;
 	token: string;
@@ -91,6 +91,51 @@ const getRequestOpts = (
 						: v,
 				}
 			)
+
+			break;
+
+		case 'automation':
+			switch (operation) {
+				case 'create':
+					opts.url = `/automation`
+					opts.method = 'POST';
+					break;
+
+				case 'destroy':
+					opts.url = `/automation/${params.id}`
+					opts.method = 'DELETE';
+					break;
+
+				case 'find':
+					opts.url = `/automation/${params.id}`
+					opts.method = 'GET';
+					break;
+
+				case 'list':
+					opts.url = `/automation`
+					opts.method = 'GET';
+					break;
+
+				case 'update':
+					opts.url = `/automation/${params.id}`
+					opts.method = 'PUT';
+					break;
+
+				default:
+					throw new Error(`Not implemented operation '${operation}' for resource '${resource}'`)
+			}
+
+			if (['create', 'update'].includes(operation)) {
+				opts.body = {
+					data: {
+						settings: {
+							url: params.url,
+						},
+						type: 'webhook',
+						trigger: params.trigger,
+					}
+				}
+			}
 
 			break;
 
