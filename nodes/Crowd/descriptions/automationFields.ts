@@ -25,12 +25,12 @@ const automationOperations: INodeProperties = {
 		{
 			name: 'Destroy',
 			value: 'destroy',
-			action: 'Destroys an existing automation in the tenant',
+			action: 'Destroy an existing automation for the tenant',
 		},
 		{
 			name: 'Find',
 			value: 'find',
-			action: 'Get an existing automation data in the tenant',
+			action: 'Get an existing automation data for the tenant',
 		},
 		{
 			name: 'List',
@@ -40,7 +40,7 @@ const automationOperations: INodeProperties = {
 		{
 			name: 'Update',
 			value: 'update',
-			action: 'Updates an existing automation in the tenant',
+			action: 'Updates an existing automation for the tenant',
 		},
 	],
 };
