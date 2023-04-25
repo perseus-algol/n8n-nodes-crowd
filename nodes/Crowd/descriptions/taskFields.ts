@@ -1,4 +1,5 @@
 import { INodeProperties } from "n8n-workflow";
+import { taskPresend } from "../GenericFunctions";
 import { mapWith, showFor } from "./utils";
 
 const displayOpts = showFor(['task'])
@@ -21,21 +22,47 @@ const taskOperations: INodeProperties = {
 			name: 'Create',
 			value: 'create',
 			action: 'Create a task',
+			routing: {
+				send: { preSend: [taskPresend]},
+				request: {
+					method: 'POST',
+					url: '/task'
+				}
+			}
 		},
 		{
 			name: 'Delete',
 			value: 'delete',
 			action: 'Delete a task',
+			routing: {
+				request: {
+					method: 'DELETE',
+					url: '=/task/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Find',
 			value: 'find',
 			action: 'Find a task',
+			routing: {
+				request: {
+					method: 'GET',
+					url: '=/task/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Update',
 			value: 'update',
 			action: 'Update a task',
+			routing: {
+				send: { preSend: [taskPresend]},
+				request: {
+					method: 'PUT',
+					url: '=/task/{{$parameter["id"]}}'
+				}
+			}
 		},
 	]
 }

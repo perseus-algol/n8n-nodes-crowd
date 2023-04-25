@@ -1,4 +1,5 @@
 import { INodeProperties } from "n8n-workflow";
+import { activityPresend } from "../GenericFunctions";
 import { emailsField, usernameField } from "./shared";
 import { mapWith, showFor } from "./utils";
 
@@ -22,11 +23,25 @@ const activityOperations: INodeProperties = {
 			name: 'Create or Update an Activity (with a Member)',
 			value: 'createWithMember',
 			action: 'Create or update an activity with a member',
+			routing: {
+				send: { preSend: [activityPresend]},
+				request: {
+					method: 'POST',
+					url: '/activity/with-member'
+				}
+			}
 		},
 		{
 			name: 'Create an Activity for a Member',
 			value: 'createForMember',
 			action: 'Create an activity for a member',
+			routing: {
+				send: { preSend: [activityPresend]},
+				request: {
+					method: 'POST',
+					url: '/activity'
+				}
+			}
 		},
 	]
 }
