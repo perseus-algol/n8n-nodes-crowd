@@ -88,7 +88,47 @@ const commonFields: INodeProperties[] = [
 			{
 				displayName: 'Item Choice',
 				name: 'itemChoice',
-				values: shared.organizationFields
+				values: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						description: 'The name of the organization',
+						type: 'string',
+						required: true,
+						default: '',
+					},
+					{
+						displayName: 'Url',
+						name: 'url',
+						description: 'The URL of the organization',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Description',
+						name: 'description',
+						description: 'A short description of the organization',
+						type: 'string',
+						typeOptions: {
+							rows: 3
+						},
+						default: '',
+					},
+					{
+						displayName: 'Logo',
+						name: 'logo',
+						description: 'A URL for logo of the organization',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Employees',
+						name: 'employees',
+						description: 'The number of employees of the organization',
+						type: 'number',
+						default: '',
+					},
+				]
 			}
 		]
 	},
