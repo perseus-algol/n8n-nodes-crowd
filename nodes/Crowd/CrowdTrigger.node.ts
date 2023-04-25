@@ -23,14 +23,14 @@ const createRequest = (creds: ICrowdCreds, opts: Partial<IHttpRequestOptions>): 
 
 export class CrowdTrigger implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Crowd.dev  Trigger',
+		displayName: 'crowd.dev Trigger',
 		name: 'crowdTrigger',
 		icon: 'file:crowd.svg',
 		group: ['trigger'],
 		version: 1,
-		description: 'Starts the workflow when Crowd.dev events occur.',
+		description: 'Starts the workflow when crowd.dev events occur.',
 		defaults: {
-			name: 'Crowd.dev Trigger',
+			name: 'crowd.dev Trigger',
 		},
 		inputs: [],
 		outputs: ['main'],

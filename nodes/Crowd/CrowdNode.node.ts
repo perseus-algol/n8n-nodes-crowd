@@ -11,13 +11,13 @@ import { callApi } from './GenericFunctions';
 
 export class CrowdNode implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Crowd.dev Node',
+		displayName: 'crowd.dev Node',
 		name: 'crowdNode',
 		icon: 'file:crowd.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
-		description: 'Crowd.dev - An open-source suite of community and data tools built to unlock community-led growth for developer tools.',
+		description: 'crowd.dev is an open-source suite of community and data tools built to unlock community-led growth for your organization.',
 		defaults: {
 			name: 'Crowd Node',
 		},
