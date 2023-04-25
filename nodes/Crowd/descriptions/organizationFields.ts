@@ -1,6 +1,6 @@
 import { INodeProperties } from 'n8n-workflow';
+import { organizationPresend } from '../GenericFunctions';
 import { mapWith, showFor } from "./utils";
-import * as shared from './shared';
 
 const displayOpts = showFor(['organization'])
 
@@ -22,21 +22,47 @@ const organizationOperations: INodeProperties = {
 			name: 'Create',
 			value: 'create',
 			action: 'Create an organization',
+			routing: {
+				send: { preSend: [organizationPresend]},
+				request: {
+					method: 'POST',
+					url: '/organization'
+				}
+			}
 		},
 		{
 			name: 'Delete',
 			value: 'delete',
 			action: 'Delete an organization',
+			routing: {
+				request: {
+					method: 'DELETE',
+					url: '=/organization/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Find',
 			value: 'find',
 			action: 'Find an organization',
+			routing: {
+				request: {
+					method: 'GET',
+					url: '=/organization/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Update',
 			value: 'update',
 			action: 'Update an organization',
+			routing: {
+				send: { preSend: [organizationPresend]},
+				request: {
+					method: 'PUT',
+					url: '=/organization/{{$parameter["id"]}}'
+				}
+			}
 		},
 	],
 };

@@ -1,4 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
+import { automationPresend } from '../GenericFunctions';
 import { mapWith, showFor } from './utils';
 
 const displayOpts = showFor(['automation']);
@@ -21,26 +22,58 @@ const automationOperations: INodeProperties = {
 			name: 'Create',
 			value: 'create',
 			action: 'Create a new automation for the tenant',
+			routing: {
+				send: { preSend: [automationPresend]},
+				request: {
+					method: 'POST',
+					url: '/automation'
+				}
+			}
 		},
 		{
 			name: 'Destroy',
 			value: 'destroy',
 			action: 'Destroy an existing automation for the tenant',
+			routing: {
+				request: {
+					method: 'DELETE',
+					url: '=/automation/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Find',
 			value: 'find',
 			action: 'Get an existing automation data for the tenant',
+			routing: {
+				request: {
+					method: 'GET',
+					url: '=/automation/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'List',
 			value: 'list',
 			action: 'Get all existing automation data for tenant',
+			routing: {
+				request: {
+					method: 'GET',
+					url: '/automation'
+				}
+			}
 		},
 		{
 			name: 'Update',
 			value: 'update',
 			action: 'Updates an existing automation for the tenant',
+			routing: {
+				send: { preSend: [automationPresend]},
+				request: {
+					method: 'PUT',
+					url: '=/automation/{{$parameter["id"]}}'
+				}
+			}
 		},
 	],
 };

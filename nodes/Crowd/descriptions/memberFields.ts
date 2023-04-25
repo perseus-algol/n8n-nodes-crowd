@@ -1,6 +1,7 @@
 import { INodeProperties } from "n8n-workflow";
 import { mapWith, showFor } from "./utils";
 import * as shared from "./shared";
+import { memberPresend } from "../GenericFunctions";
 
 const displayOpts = showFor(['member'])
 
@@ -22,21 +23,47 @@ const memberOperations: INodeProperties = {
 			name: 'Create or Update',
 			value: 'createOrUpdate',
 			action: 'Create or update a member',
+			routing: {
+				send: { preSend: [memberPresend]},
+				request: {
+					method: 'POST',
+					url: '/member'
+				}
+			}
 		},
 		{
 			name: 'Delete',
 			value: 'delete',
 			action: 'Delete a member',
+			routing: {
+				request: {
+					method: 'DELETE',
+					url: '=/member/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Find',
 			value: 'find',
 			action: 'Find a member',
+			routing: {
+				request: {
+					method: 'GET',
+					url: '=/member/{{$parameter["id"]}}'
+				}
+			}
 		},
 		{
 			name: 'Update',
 			value: 'update',
 			action: 'Update a member',
+			routing: {
+				send: { preSend: [memberPresend]},
+				request: {
+					method: 'PUT',
+					url: '=/member/{{$parameter["id"]}}'
+				}
+			}
 		},
 	]
 }
@@ -59,7 +86,14 @@ const commonFields: INodeProperties[] = [
 		required: true,
 		default: ''
 	},
-	shared.usernameField,
+	{
+		displayName: 'Username',
+		name: 'username',
+		description: 'Username of the member in platform',
+		type: 'string',
+		required: true,
+		default: ''
+	},
 	{
 		displayName: 'Display Name',
 		name: 'displayName',
